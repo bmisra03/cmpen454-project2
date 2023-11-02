@@ -4,8 +4,8 @@ load("mocapPoints3D.mat");
 %Load the parameters for camera 1
 load("Parameters_V1_1.mat");
 
-camera1Locations = zeros(2,39);
-camera2Locations = zeros(2,39);
+image1Locations = zeros(2,39);
+image2Locations = zeros(2,39);
 
 %Iterate through all 39 points for image1 and calculate pixel values
 for i = 1:size(pts3D, 2)
@@ -21,7 +21,7 @@ for i = 1:size(pts3D, 2)
     pixelPoint = [Parameters.Kmat, zeros(3,1)]*cameraPoint;
     pixelPoint = pixelPoint/pixelPoint(3);
     %Save the pixel point to the locations array
-    camera1Locations(:, i) = pixelPoint(1:2, :);
+    image1Locations(:, i) = pixelPoint(1:2, :);
 end
 
 %Load the parameters for camera 2
@@ -41,7 +41,7 @@ for i = 1:size(pts3D, 2)
     pixelPoint = [Parameters.Kmat, zeros(3,1)]*cameraPoint;
     pixelPoint = pixelPoint/pixelPoint(3);
     %Save the pixel point to the locations array
-    camera2Locations(:, i) = pixelPoint(1:2, :);
+    image2Locations(:, i) = pixelPoint(1:2, :);
 end
 
 %load image 1
@@ -51,7 +51,7 @@ imshow(image1);
 title('Image1 with Point Locations');
 
 hold on;
-scatter(camera1Locations(1, :), camera1Locations(2, :), 'r', 'filled');
+scatter(image1Locations(1, :), image1Locations(2, :), 'r', 'filled');
 hold off;
 
 %load image 2
@@ -61,6 +61,6 @@ imshow(image2);
 title('Image2 with Point Locations');
 
 hold on;
-scatter(camera2Locations(1, :), camera2Locations(2, :), 'r', 'filled');
+scatter(image2Locations(1, :), image2Locations(2, :), 'r', 'filled');
 hold off;
 
