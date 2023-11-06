@@ -1,3 +1,7 @@
+%load location of points
+load('ImagePointLocations.mat')
+
+%select the first 8 points in each image to use as correspondance points
 load('ImagePointLocations.mat')
 x1 = image1Locations(1, 1:8)';
 y1 = image1Locations(2, 1:8)';
@@ -54,6 +58,7 @@ for i = 1:size(epiLines2, 2)
     epiLines2(:, i) = epiLines2(:, i) / norm(epiLines2(1:2, i));
 end
 
-F
-epiLines1
-epiLines2
+% Display the fundemantal matrices and epipolar lines for each image
+disp(F);
+disp(epiLines1)
+disp(epiLines2);
