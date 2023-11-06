@@ -1,4 +1,4 @@
-% Task 3a
+% Task 3b
 % Andrei Dawinan - abd5635@psu.edu
 
 % load parameters for Camera1
@@ -14,10 +14,10 @@ param2 = Parameters;
 % point #'s correspond across both images
 
 % initialize array of pixel locations in im1
-im1Locations = [932 602; 336 709; 977 935];
+im1Locations = [1154 506; 1164 274; 1712 280];
 
 % initialize array of pixel locations in im2
-im2Locations = [499 598; 929 891; 1712 698];
+im2Locations = [302 450; 281 160; 854 178];
 
 % initialize array of world locations
 worldLocations = zeros(3, 3);
@@ -83,5 +83,5 @@ d = -1 * dot(planeCoefficients, worldLocations(1, :));
 dNorm = -1 * dot(planeCoefficientsNorm, worldLocations(1, :));
 
 fprintf('Equation of Plane: ax + by + cz + d = 0\n');
-fprintf('Equation of Floor Plane: (%f)x + (%f)y + (%f)z + (%d) = 0\n', planeCoefficients(1), planeCoefficients(2), planeCoefficients(3), d);
-fprintf('Equation of Floor Plane (normalized): (%f)x + (%f)y + (%f)z + (%d) = 0\n', planeCoefficientsNorm(1), planeCoefficientsNorm(2), planeCoefficientsNorm(3), dNorm);
+fprintf('Equation of Wall Plane: (%f)x + (%f)y + (%f)z + (%d) = 0\n', planeCoefficients(1), planeCoefficients(2), planeCoefficients(3), d);
+fprintf('Equation of Wall Plane (normalized): (%f)x + (%f)y + (%f)z + (%d) = 0\n', planeCoefficientsNorm(1), planeCoefficientsNorm(2), planeCoefficientsNorm(3), dNorm);
