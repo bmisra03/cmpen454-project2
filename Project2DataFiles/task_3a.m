@@ -35,7 +35,6 @@ for point = 1:3
     r1 = param1.Rmat;
     k1 = param1.Kmat;
     t1 = param1.Pmat(:, 4);
-    %v1 = normalize(r1.' * k1^-1 * pixel1);
     v1 = r1.' * k1^-1 * pixel1;
     v1 = v1 / norm(v1);
     c1 = -1 * r1.' * t1;
@@ -45,13 +44,11 @@ for point = 1:3
     r2 = param2.Rmat;
     k2 = param2.Kmat;
     t2 = param2.Pmat(:, 4);
-    %v2 = normalize(r2.' * k2^-1 * pixel2);
     v2 = r2.' * k2^-1 * pixel2;
     v2 = v2 / norm(v2);
     c2 = -1 * r2.' * t2;
 
     % find cross product of v1 and v2 (normal vector)
-    %v3 = normalize(cross(v1, v2));
     v3 = cross(v1, v2);
     v3 = v3 / norm(v3);
 
@@ -59,14 +56,12 @@ for point = 1:3
     % T = c2 - c1
     % solve system of equations to find scale factor for each
     % vector
-    %vectors = [v1 v2 v3; v1 v2 v3; v1 v2 v3];
     vectors = [v1 -1*v2 v3];
     scales = linsolve(vectors, c2 - c1);
 
     % getting world coordinates
     % get midpoint between c1 + (a v1) and c2 (b v2)
     worldPoint = 0.5 * ((c1 + (scales(1) * v1) + (c2 + (scales(2) * v2))));
-    %worldLocations(point, :) = ((c1.' + scales(1) * v1.') + (c2.' + scales(2) * v2.')) / 2;
     worldLocations(point, :) = worldPoint.';
 end
 
@@ -74,17 +69,16 @@ end
 % ax + by + cz + d = 0
 
 % find vectors from 3 world points
-%v12 = worldLocations(1, :) - worldLocations(2, :);
-%v13 = worldLocations(1, :) - worldLocations(3, :);
-v21 = worldLocations(2, :) - worldLocations(1, :);
-v23 = worldLocations(2, :) - worldLocations(3, :);
+v12 = worldLocations(1, :) - worldLocations(2, :);
+v13 = worldLocations(1, :) - worldLocations(3, :);
 
 % find cross-product of v12 and v13 (normal vector)
 % gives us a, b, and c
-planeCoefficients = cross(v21, v23);
+planeCoefficients = cross(v12, v13);
+planeCoefficients = planeCoefficients / norm(planeCoefficients);
 
 % find d
 % use planeCoefficients and one of the world points
-d = -1 * (planeCoefficients(1) * worldLocations(1, 1) + planeCoefficients(2) * worldLocations(1, 2) + planeCoefficients(3) * worldLocations(1, 3));
+d = -1 * dot(planeCoefficients, worldLocations(1, :));
 
 fprintf('%fx + %fy + %fz + %d = 0', planeCoefficients(1), planeCoefficients(2), planeCoefficients(3), d);
