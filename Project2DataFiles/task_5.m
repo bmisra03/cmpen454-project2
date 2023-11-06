@@ -1,27 +1,16 @@
-% Compute epipolar lines for points in image 2 using points from image 1
-lines = epipolarLine(F, pt1);
-distances = zeros(1, numel(pt1));
+totalDistance = 0;
 
-for i = 1:size(pts1, 1)
-    x = pts2(i, 1);
-    y = pts2(i, 2);
-    a = lines(i, 1);
-    b = lines(i, 2);
-    c = lines(i, 3);
-    distances(i) = (a * x + b * y + c)^2 / (a^2 + b^2);
+for i = 1:length(x1)
+    % homogeneous coordinates
+    point1 = [x1(i); y1(i); 1];
+    point2 = [x2(i); y2(i); 1]; 
+
+    % calculate square geometric distance
+    distance1 = ((epiLines1(1)*x1(i) + epiLines1(2)*y1(i) + epiLines1(3))^2) / (epiLines1(1)^2 + epiLines1(2)^2);
+    distance2 = ((epiLines2(1)*x2(i) + epiLines2(2)*y2(i) + epiLines2(3))^2) / (epiLines2(1)^2 + epiLines2(2)^2);
+   
+    symmEpiDist = distance1 + distance2; 
+    totalDistance = totalDistance + symmEpiDist;
 end
 
-% Compute epipolar lines for points in image 1 using points from image 2
-lines1 = epipolarLine(F', pts2);
-
-for i = 1:size(pts2, 1)
-    x = pts1(i, 1);
-    y = pts1(i, 2);
-    a = lines1(i, 1);
-    b = lines1(i, 2);
-    c = lines1(i, 3);
-    distances(i + size(pts1, 1)) = (a * x + b * y + c)^2 / (a^2 + b^2);
-end
-
-% Compute mean symmetric epipolar distance
-mean_distance = mean(distances);
+meanSymmetricEpipolarDistance = totalDistance / length(x1)
