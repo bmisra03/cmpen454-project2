@@ -2,7 +2,6 @@
 load('ImagePointLocations.mat')
 
 %select the first 8 points in each image to use as correspondance points
-load('ImagePointLocations.mat')
 x1 = image1Locations(1, 1:8)';
 y1 = image1Locations(2, 1:8)';
 x2 = image2Locations(1, 1:8)';
